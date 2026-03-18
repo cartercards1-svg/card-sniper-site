@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Card Sniper</title>
+  <style>
+    body { background:#111; color:white; font-family:Arial; padding:20px; }
+    .card { background:#222; margin:10px; padding:10px; border-radius:10px; }
+    .good { color:#00ff00; }
+  </style>
+</head>
+<body>
+
+<h1>🔥 Live Card Deals</h1>
+<div id="app">Loading...</div>
+
+<script>
+const API = "PASTE_YOUR_RENDER_URL_HERE/api";
+
+async function load() {
+  const res = await fetch(API);
+  const data = await res.json();
+
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+
+  data.forEach(c => {
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <h3>${c.title}</h3>
+      <p>💲 ${c.price}</p>
+      <p>📊 Value: ${c.value}</p>
+      <p class="good">${c.percent}% ${c.case_hit ? "(CASE HIT)" : ""}</p>
+      <a href="${c.link}" target="_blank">View Listing</a>
+    `;
+
+    app.appendChild(div);
+  });
+}
+
+setInterval(load, 15000);
+load();
+</script>
+
+</body>
+</html>
